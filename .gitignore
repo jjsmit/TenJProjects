@@ -13,7 +13,7 @@
 /include
 /obj
 /src
-
+/helloworld/HelloProgram
 
 # Precompiled Headers
 *.gch
