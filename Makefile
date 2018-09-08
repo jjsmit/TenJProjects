@@ -13,9 +13,9 @@ CC = gcc
 #  -Wall     give verbose compiler warnings
 #  -O0       do not optimize generated code
 #  -std=c99  use the C99 standard language definition
-#  -lstdc++	 use c++ std libs or something..
+#  -std=c++17	use c++17 language def
 
-CFLAGS = -g -Wall -O0 -lstdc++
+CFLAGS = -g -Wall -O0 -std=c++17
 
 # The LDFLAGS variable sets flags for linker
 #  -lm   says to link in libm (the math library)
