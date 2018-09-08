@@ -6,20 +6,26 @@
 #include <sys/types.h> 
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <iostream>
 
 int main(int argc, char *argv[])
 {
     //Create a socket with the socket() system call
-    int sockfd, newsockfd, portno;
+    int newsockfd, portno;
     socklen_t clilen;	//moeten we nog opzoeken
     char buffer[256];	//buffer voor read and write
     struct sockaddr_in serv_addr, cli_addr;	//moet noet uitgez
     int n;    // return value of read and write?? iets
-	if (argc < 2) {
+	
+    if (argc < 2) {
          fprintf(stderr,"ERROR, no port provided\n");
          exit(1);
      }
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+     else {
+        std::cout << "argc =" << argc << "argv =" << argv[1] << "\n";
+     }
+     
+    auto sockfd = socket(AF_INET, SOCK_STREAM, 0);
      if (sockfd < 0) 
      {
         perror("ERROR opening socket");
