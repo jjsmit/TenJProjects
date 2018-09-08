@@ -25,7 +25,7 @@ LDFLAGS = -lm -lstdc++ #im doing somthing wrong with -lstdc++ here
 # If you add/change names of source files, here is where you
 # edit the Makefile.
 SOURCES = server.cpp
-OBJECTS = $(SOURCES:.c=.o)
+OBJECTS = $(SOURCES:.cpp=.o)
 TARGET = server
 
 
