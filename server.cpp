@@ -8,13 +8,12 @@
 #include <netinet/in.h>
 #include <iostream>
 
+//i found some information about how this works here: http://www.cplusplus.com/forum/articles/13355/
 int main(int argc, char *argv[])
 {
     //Create a socket with the socket() system call
-    int newsockfd, portno;
     socklen_t clilen;	//moeten we nog opzoeken
-    char buffer[256];	//buffer voor read and write
-    struct sockaddr_in serv_addr, cli_addr;	//moet noet uitgez
+    struct sockaddr_in serv_addr, cli_addr;	//moet noet uitgezet
     int n;    // return value of read and write?? iets
 	
     if (argc < 2) {
@@ -22,7 +21,8 @@ int main(int argc, char *argv[])
          exit(1);
      }
      else {
-        std::cout << "argc =" << argc << "argv =" << argv[1] << "\n";
+        std::cout << "argc =" << argc << "argv =" << argv[0] << "\n";
+        sleep(5);
      }
      
     auto sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -31,8 +31,8 @@ int main(int argc, char *argv[])
         perror("ERROR opening socket");
         exit(2);
      }
-	bzero((char *) &serv_addr, sizeof(serv_addr)); //zet alles in server_addr naar 0
-    portno = atoi(argv[1]);	//poort argument van int naar string
+	bzero((char *) &serv_addr, sizeof(serv_addr)); //zet alles in server_addr naar 0. for infor on sizeof see: https://en.cppreference.com/w/cpp/language/sizeof
+    auto portno = atoi(argv[1]);	//poort argument van int naar string
     
     //The variable serv_addr is a structure of type struct sockaddr_in. This structure has four fields. The first field is short sin_family, which contains a code for the address family. It should always be set to the symbolic constant AF_INET.
     serv_addr.sin_family = AF_INET;
@@ -45,13 +45,15 @@ int main(int argc, char *argv[])
         }
     listen(sockfd,5);
     clilen = sizeof(cli_addr); 
-    newsockfd = accept(sockfd,(struct sockaddr *) &cli_addr, &clilen);
+    auto newsockfd = accept(sockfd,(struct sockaddr *) &cli_addr, &clilen);
 	if (newsockfd < 0)
 	{
 		perror("ERROR on accept");
 		exit(3);
 	}
-	bzero(buffer,256);
+    //char buffer[256];	//buffer voor read and write;
+    char buffer[256];
+	bzero(buffer,sizeof(buffer));
 	n = read(newsockfd,buffer,255);
 	if (n < 0) 
 	{
