@@ -14,14 +14,14 @@ int main(int argc, char *argv[])
     //Create a socket with the socket() system call
     socklen_t clilen;	//moeten we nog opzoeken
     struct sockaddr_in serv_addr, cli_addr;	//moet noet uitgezet
-    int n;    // return value of read and write?? iets
+       // return value of read and write?? iets
 	
     if (argc < 2) {
          fprintf(stderr,"ERROR, no port provided\n");
          exit(1);
      }
      else {
-        std::cout << "argc =" << argc << "argv =" << argv[0] << "\n";
+        std::cout << "argc =" << argc << "argv =" << argv[1] << "\n";
         sleep(5);
      }
      
@@ -44,29 +44,36 @@ int main(int argc, char *argv[])
             exit(1);
         }
     listen(sockfd,5);
-    clilen = sizeof(cli_addr); 
-    auto newsockfd = accept(sockfd,(struct sockaddr *) &cli_addr, &clilen);
-	if (newsockfd < 0)
-	{
-		perror("ERROR on accept");
-		exit(3);
-	}
-    //char buffer[256];	//buffer voor read and write;
-    char buffer[256];
-	bzero(buffer,sizeof(buffer));
-	n = read(newsockfd,buffer,255);
-	if (n < 0) 
-	{
-		perror("Error reading from socket");
-		exit(4);
-	}
-	printf("Here is the message: %s\n",buffer);
-	n = write(newsockfd,"I got your message",18);
-	if (n < 0) 
-	{
-		perror("Error reading from socket");
-		exit(5);
-	}	
+    clilen = sizeof(cli_addr);
+
+    int newsockfd{};
+    while (true)
+    {
+        newsockfd = accept(sockfd,(struct sockaddr *) &cli_addr, &clilen);
+        if (newsockfd < 0)
+        {
+            perror("ERROR on accept");
+            exit(3);
+        }
+        //char buffer[256];	//buffer voor read and write;
+        char buffer[256];
+        bzero(buffer,sizeof(buffer));
+        int n = read(newsockfd,buffer,255);
+        if (n < 0) 
+        {
+            perror("Error reading from socket");
+            exit(4);
+        }
+        printf("Here is the message: %s\n",buffer);
+        n = write(newsockfd,"I got your message",18);
+        if (n < 0) 
+        {
+            perror("Error reading from socket");
+            exit(5);
+        }
+    }
+
+
      close(newsockfd);
      close(sockfd);
      return 0;	
