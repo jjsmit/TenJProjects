@@ -11,4 +11,3 @@ class DiffEnt():
 
     def ComputeKey(self, PublicKey):
         self.SecretKey= PublicKey**self.PickedNumber % DiffEnt.PublicMod
-
