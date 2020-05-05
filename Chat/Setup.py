@@ -1,12 +1,14 @@
 class DiffEnt():
-    PublicBase = 5
     PublicMod = 23
+    PublicBase = 5
 
-    def __init__(self, PickedNumber):
+    def __init__(self, PickedNumber, otherDiffEnt = None):
         self.PickedNumber = PickedNumber
-        self.N = DiffEnt.PublicBase**self.PickedNumber%DiffEnt.PublicMod
+        self.publicKey = self.PublicBase**self.PickedNumber % self.PublicMod
+        if otherDiffEnt != None:
+            self.ComputeKey(otherDiffEnt.publicKey)
+            otherDiffEnt.ComputeKey(self.publicKey)
 
-    def ComputeKey(self, OutN):
-        self.OutN = OutN
-        self.Secret = self.OutN**self.PickedNumber%DiffEnt.PublicMod
-        return self.Secret
+    def ComputeKey(self, PublicKey):
+        self.SecretKey= PublicKey**self.PickedNumber % DiffEnt.PublicMod
+
