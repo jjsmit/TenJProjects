@@ -36,7 +36,7 @@ call plug#end()
 
 " UI {{{
 
-let mapleader=" "
+let mapLeader=" "
 set smartindent
 set relativenumber
 set cursorline
