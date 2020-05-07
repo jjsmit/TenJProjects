@@ -1,21 +1,11 @@
-" basic highlighting
-syntax on
+" Tabs And Spaces {{{
 
 set tabstop=4 softtabstop=4
 set shiftwidth=4
 
-" automatic indenting
-set smartindent
+" }}}
 
-" line nubers
-set nu
-
-" no text wrapping
-set nowrap
-
-" smartcase searching
-set ignorecase
-set smartcase
+" Backup and swapfiles {{{
 
 " dont create swapfiles
 "set noswapfile
@@ -23,13 +13,18 @@ set smartcase
 "set undodir=~/.vim/undodir
 "set undofile
 
-" highlight searches
+" }}}
+
+" Searching {{{
+
 set incsearch
+set ignorecase
+set smartcase
 
-"set colorcolumn=80
-"highlight ColorColumn ctermbg=0 guibg=lightgray
+"}}}
 
-" pulgin manager -> plugin install location
+" Plugins {{{
+
 call plug#begin('~/AppData/Local/nvim/plugged')
 
 Plug 'morhetz/gruvbox'
@@ -37,5 +32,26 @@ Plug 'ycm-core/YouCompleteMe'
 
 call plug#end()
 
+"}}}
+
+" UI {{{
+
+let mapleader=" "
+set smartindent
+set relativenumber
+set cursorline
+set nowrap
+syntax on
 colorscheme gruvbox
 set background=dark
+
+"}}}
+
+" VIMRC {{{
+
+nnoremap <leader>ev :vsp $MYVIMRC<CR>
+nnoremap <leader>sv :source $MYVIMRC <bar> :doautocmd BufRead<CR>
+
+" }}}
+
+" vim:foldmethod=marker:foldlevel=0
