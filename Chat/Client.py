@@ -8,8 +8,8 @@ def create_client():
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         print ('socket created')
-        host = '84.80.93.149'
-        port = 8001
+        host = '127.0.0.1'
+        port = 8002
         remote_ip = socket.gethostbyname(host)
         print ('connecting to', remote_ip)
         s.connect((remote_ip, port))
@@ -27,7 +27,7 @@ def send(s):
 
         try:
             while True:
-                message = input('write message')
+                message = input('cin>> \n')
                 message = str.encode(message)
                 s.sendall(message)
                 time.sleep(0.1)
@@ -42,10 +42,32 @@ def receive(s):
     while True:
         time.sleep(0.1)
         data = s.recv(16)
-        print ('received', data.decode())
+        print ('cout<< \n',data.decode())
+
+def ComputeKey(s):
+
+    # Recieve info server (Base, Mod, and Server public key)
+    Key = s.recv(16)
+    Key = Key.decode()
+    Base, Mod, RKey = Key.split()
+    Number = 5
+    Base, Mod, RKey = int(Base), int(Mod), int(RKey)
+
+    #Compute local public key
+    PublicKey = str(Base**Number%Mod)
+
+    #Send Local public key to server
+    message = str.encode(PublicKey)
+    s.sendall(message)
+
+    #Compute private key
+    SecretKey = RKey**Number%Mod
+    print(SecretKey)
+    return(SecretKey)
 
 try:
     s = create_client()
+    K = ComputeKey(s)
     threading._start_new_thread( receive,(s,))
     threading._start_new_thread( send, (s,))
     while True:
