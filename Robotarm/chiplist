@@ -1,0 +1,17 @@
+SR latch --> NE555p
+
+SN74LS08 --> AND gate
+
+T74LS05 --> Inverter
+
+LN74LS32 --> OR gate
+
+Benodigdheden:
+
+14 bit counter CD4020BE
+555 timer (latch)
+clk cristal 
+16 XOR gate
+2x inverter T74LS05
+2x 8 bit reg
+2x bit counter
